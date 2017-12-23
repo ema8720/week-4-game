@@ -43,7 +43,7 @@ var getRandom = function(min, max) {
     // Starts the game and restarts the game
 var startGame = function() {
     // Reset the Current Score
-    var currentScore = 0;
+    currentScore = 0;
     // Set a new Target Score ()
     targetScore = getRandom(19, 120);
     // Set different values for each of the crystals between 1 and 12
@@ -53,30 +53,70 @@ var startGame = function() {
     crystal.yellow.value = getRandom(1, 12);
 
     // Change the HTML to reflect all of these changes. 
+    $("#yourScore").html(currentScore)
+    $("#targetScore").html(targetScore)
+
+
+
     // Testing Console
     console.log("-------------------");
     console.log("Target Score: " + targetScore);
-    console.log("Blue: " + crystal.blue.value + " | Red: " + crystal.red.value + " | Green " + crystal.green.value + " | Yellow " + crystal.yellow.value);
+    console.log("Blue: " + crystal.blue.value + " | Green " + crystal.green.value + " | Red: " + crystal.red.value + " | Yellow " + crystal.yellow.value);
     console.log("-------------------");
 }
 
-//Main Process
-// =========================================================
-// Start Game the first time
+// Create Function that responds to clicks on crystals
+var addValues = function(crystal) {
+        currentScore = currentScore + crystal.value;
+        // Change HTML to reflect changes in the currentScore Variable
+        $("#yourScore").html(currentScore);
+
+        // Call the checkWin function
+        checkWin();
+
+        // Testing
+        console.log("Your score: " + currentScore);
+    }
+    /// Check if user won or lost and reset the game
+var checkWin = function() {
+        // Check if currentScore is larger than the targetScore
+        if (currentScore > targetScore) {
+            alert("Sorry but you lost!");
+            console.log("You lost");
+            // Add to loss counter
+            lossCount++;
+            // Change Loss Count 
+            $("#lossCount").html(lossCount);
+            // Restart the Game
+            $startGame();
+        } else if (currentScore == targetScore) {
+            alert("You won!")
+            console.log("You won!");
+            // Add to the win counter
+            winCount++;
+            // Change Loss Count 
+            $("#winCount").html(winCount);
+            // Restart the Game
+            $startGame();
+        }
+    }
+    //Main Process
+    // =========================================================
+    // Start Game the first time
 startGame();
 
 $("#blue").click(function() {
-    alert("test!");
+    addValues(crystal.blue);
 })
 
 $("#red").click(function() {
-    alert("test!");
+    addValues(crystal.red);
 })
 
 $("#green").click(function() {
-    alert("test!");
+    addValues(crystal.green);
 })
 
 $("#yellow").click(function() {
-    alert("test!");
+    addValues(crystal.yellow);
 })
